@@ -1,14 +1,25 @@
-import express, { Application } from 'express'
-import cors from 'cors'
-const app: Application = express()
-import userRouter from './app/modules/users/users.route'
+import express, { Application } from 'express';
+import cors from 'cors';
+const app: Application = express();
 
-app.use(cors())
+import globalErrorHandler from './app/middlewares/globalErrorHandeler';
+import { userRoutes } from './app/modules/user/user.route';
+import { AcademicSemesterRoute } from './app/modules/academicSemester/academicSemester.route';
+
+app.use(cors());
 
 // parser
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/v1/users/', userRouter)
+app.use('/api/v1/users/', userRoutes);
+app.use('/api/v1/academic-semesters/', AcademicSemesterRoute);
 
-export default app
+// testing
+// app.get('/', (req: Request, res: Response) => {
+//   throw new ApiError(400, 'THs is eoorr')
+// })
+
+app.use(globalErrorHandler);
+
+export default app;

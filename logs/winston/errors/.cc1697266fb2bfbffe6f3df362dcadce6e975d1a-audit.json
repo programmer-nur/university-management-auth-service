@@ -1,0 +1,80 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "C:\\NextLevel\\university-management-auth-service\\logs\\winston\\errors\\.cc1697266fb2bfbffe6f3df362dcadce6e975d1a-audit.json",
+    "files": [
+        {
+            "date": 1685810947774,
+            "name": "C:\\NextLevel\\university-management-auth-service\\logs\\winston\\errors\\phu-2023-03-06-22-error.log",
+            "hash": "4cd42a6b0e8d94241abf7017419bafac2136ae351c7f58a9da25195b19422c4b"
+        },
+        {
+            "date": 1685843258247,
+            "name": "C:\\NextLevel\\university-management-auth-service\\logs\\winston\\errors\\phu-2023-04-06-07-error.log",
+            "hash": "06dd186027a24695801c029321be15667adefb57917b89c4c46d614b5d13062d"
+        },
+        {
+            "date": 1685844138081,
+            "name": "C:\\NextLevel\\university-management-auth-service\\logs\\winston\\errors\\phu-2023-04-06-08-error.log",
+            "hash": "7d45d47918340bd42de12af4002131d97869c21ac88501e9eccd3401cc4b2f2f"
+        },
+        {
+            "date": 1685847801924,
+            "name": "C:\\NextLevel\\university-management-auth-service\\logs\\winston\\errors\\phu-2023-04-06-09-error.log",
+            "hash": "c92933956063fd333e83420009db8770ee471a0d31880fbd0c585015204e139b"
+        },
+        {
+            "date": 1685869099101,
+            "name": "C:\\NextLevel\\university-management-auth-service\\logs\\winston\\errors\\phu-2023-04-06-14-error.log",
+            "hash": "9445ed2163d3170f79718905247a061e475cf796cb15aa16676a1433fceabaa8"
+        },
+        {
+            "date": 1685869591795,
+            "name": "C:\\NextLevel\\university-management-auth-service\\logs\\winston\\errors\\phu-2023-04-06-15-error.log",
+            "hash": "107fde348c81f0b11ed7dafe96b0a859a015b36be7dba2fc00ef625ebc04e5f8"
+        },
+        {
+            "date": 1685874239916,
+            "name": "C:\\NextLevel\\university-management-auth-service\\logs\\winston\\errors\\phu-2023-04-06-16-error.log",
+            "hash": "46453aac9f86398e4b9fc5ba0e37ba1a0b2b63ab1c4479eace19ce10597c3e1e"
+        },
+        {
+            "date": 1685933110904,
+            "name": "C:\\NextLevel\\university-management-auth-service\\logs\\winston\\errors\\phu-2023-05-06-08-error.log",
+            "hash": "73e5f00fe7ead6348c590176448dcaf952cba1d354f305ded57232c298ff718a"
+        },
+        {
+            "date": 1685934155793,
+            "name": "C:\\NextLevel\\university-management-auth-service\\logs\\winston\\errors\\phu-2023-05-06-09-error.log",
+            "hash": "324e056159cb6b8450c009e09a57e3a4be5a09f675e739704b21d2fef51aae19"
+        },
+        {
+            "date": 1685953660149,
+            "name": "C:\\NextLevel\\university-management-auth-service\\logs\\winston\\errors\\phu-2023-05-06-14-error.log",
+            "hash": "2b8cadaa76718ee869eab38d24bdf67f4e2684a820a7b0dffa4a084ccbca9c30"
+        },
+        {
+            "date": 1685972574022,
+            "name": "C:\\NextLevel\\university-management-auth-service\\logs\\winston\\errors\\phu-2023-05-06-19-error.log",
+            "hash": "7f2e30a885f3c0c0b4b075c8350001814729752ebcc3c906a73bc1b10d0cf0f5"
+        },
+        {
+            "date": 1685973836731,
+            "name": "C:\\NextLevel\\university-management-auth-service\\logs\\winston\\errors\\phu-2023-05-06-20-error.log",
+            "hash": "6f7a0d09caeeb03bbc5caab2046921d098f768561de717c0d599d92878f576d5"
+        },
+        {
+            "date": 1686039742232,
+            "name": "C:\\NextLevel\\university-management-auth-service\\logs\\winston\\errors\\phu-2023-06-06-14-error.log",
+            "hash": "2a30b7d6199ed634b078743fadda5d34e9b6951fcd16e664409cb42ae3644006"
+        },
+        {
+            "date": 1686047295401,
+            "name": "C:\\NextLevel\\university-management-auth-service\\logs\\winston\\errors\\phu-2023-06-06-16-error.log",
+            "hash": "65da4f963528040a372a2098875fe901b92cfea7c851086ff60853a9e0b4144e"
+        }
+    ],
+    "hashType": "sha256"
+}
