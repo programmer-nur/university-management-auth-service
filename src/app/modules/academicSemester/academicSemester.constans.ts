@@ -19,7 +19,7 @@ export const academicSemesterMonths: IAcademicSemesterMonths[] = [
   'December',
 ];
 
-export const academicSemesterTitlesCodeMapper: {
+export const academicSemesterTitleCodeMapper: {
   [key: string]: string;
 } = {
   Autumn: '01',
@@ -36,4 +36,11 @@ export const academicSemesterCodes: IAcademicSemesterCodes[] = [
   '01',
   '02',
   '03',
+];
+export const academicSemesterSearchableFields = ['title', 'code', 'year'];
+export const academicSemesterFilterableFields = [
+  'searchTerm',
+  'title',
+  'code',
+  'year',
 ];
