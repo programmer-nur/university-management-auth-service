@@ -60,7 +60,7 @@ const getAllAcademicDepartment = async (
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
-  const total = await AcademicDepartment.countDocuments();
+  const total = await AcademicDepartment.countDocuments(whereConditions);
   return {
     meta: {
       page,
@@ -95,7 +95,9 @@ const updateAcademicDepartment = async (
 const deleteAcademicDepartment = async (
   id: string
 ): Promise<IAcademicDepartment | null> => {
-  const result = await AcademicDepartment.findByIdAndDelete(id);
+  const result = await AcademicDepartment.findByIdAndDelete(id).populate(
+    'academicFaculty'
+  );
   return result;
 };
 
