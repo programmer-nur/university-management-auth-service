@@ -69,13 +69,7 @@ const getSingleStudent = async (id: string): Promise<IStudent | null> => {
     .populate('academicFaculty');
   return result;
 };
-const deleteStudent = async (id: string): Promise<IStudent | null> => {
-  const result = await Student.findByIdAndDelete(id)
-    .populate('academicSemester')
-    .populate('academicDepartment')
-    .populate('academicFaculty');
-  return result;
-};
+
 const updateStudent = async (id: string, payload: Partial<IStudent>) => {
   const { name, guardian, localGuardian, ...studentData } = payload;
   const updateStudentData: Partial<IStudent> = { ...studentData };
@@ -113,5 +107,4 @@ export const StudentService = {
   getAllStudents,
   getSingleStudent,
   updateStudent,
-  deleteStudent,
 };

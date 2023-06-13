@@ -6,7 +6,6 @@ import validateRequest from '../../middlewares/validateRequest';
 const router = express.Router();
 
 router.get('/:id', StudentController.getSingleStudent);
-router.delete('/:id', StudentController.deleteStudent);
 router.patch(
   '/:id',
   validateRequest(studentValidation.updateStudentZodSchema),
