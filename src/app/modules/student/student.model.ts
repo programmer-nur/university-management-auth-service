@@ -28,10 +28,12 @@ export const StudentSchema = new Schema<IStudent, StudentModel>(
     },
     gender: {
       type: String,
+      required: true,
       enum: gender,
     },
     dateOfBirth: {
       type: String,
+      required: true,
     },
     email: {
       type: String,

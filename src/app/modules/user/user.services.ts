@@ -4,10 +4,12 @@ import { AcademicSemester } from '../academicSemester/academicSemester.model';
 import { IStudent } from '../student/student.interface';
 import { IUser } from './user.interface';
 import { User } from './user.model';
-import { generateStudentId } from './user.utils';
+import { generateFacultyId, generateStudentId } from './user.utils';
 import { Student } from '../student/student.model';
 import ApiError from '../../../Errors/ApiError';
 import httpStatus from 'http-status';
+import { IFaculty } from '../faculty/faculty.interface';
+import { Faculty } from '../faculty/faculty.model';
 
 const createStudent = async (
   student: IStudent,
@@ -33,7 +35,8 @@ const createStudent = async (
     user.id = id;
     student.id = id;
 
-    //array
+    // ai ta akt array karon transtion usr korar karone
+
     const newStudent = await Student.create([student], { session });
 
     if (!newStudent.length) {
@@ -80,6 +83,62 @@ const createStudent = async (
   return newUserAllData;
 };
 
+const createFaculty = async (
+  faculty: IFaculty,
+  user: IUser
+): Promise<IUser | null> => {
+  if (!user.password) {
+    user.password = config.default_student_pass as string;
+  }
+
+  user.role = 'faculty';
+
+  const id = await generateFacultyId();
+  user.id = id;
+  faculty.id = id;
+
+  let newUserAllData = null;
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    // Transaction start korar karon a faculty ke [faculty] ai babe dite hove
+    const newFaculty = await Faculty.create([faculty], { session });
+    if (!newFaculty.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create faculty');
+    }
+
+    user.faculty = newFaculty[0];
+
+    const newUser = await User.create([user], { session });
+
+    if (!newUser.length) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create User');
+    }
+    newUserAllData = newUser[0];
+    await session.commitTransaction();
+    await session.endSession();
+  } catch (error) {
+    await session.abortTransaction();
+    await session.endSession();
+    throw error;
+  }
+  if (newUserAllData) {
+    newUserAllData = await User.findOne({ id: newUserAllData.id }).populate({
+      path: 'faculty',
+      populate: [
+        {
+          path: 'academicDepartment',
+        },
+        {
+          path: 'academicFaculty',
+        },
+      ],
+    });
+  }
+  return newUserAllData;
+};
+
 export const UserService = {
   createStudent,
+  createFaculty,
 };
