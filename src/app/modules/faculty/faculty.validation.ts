@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { gender } from '../student/student.constans';
-import { bloodGroup, designation } from './faculty.constans';
+import { bloodGroup } from './faculty.constans';
 
 const updateFacultyZodSchema = z.object({
   body: z.object({
@@ -17,7 +17,7 @@ const updateFacultyZodSchema = z.object({
     contactNo: z.string().optional(),
     emergencyContactNo: z.string().optional(),
     bloodGroup: z.enum([...bloodGroup] as [string, ...string[]]).optional(),
-    designation: z.enum([...designation] as [string, ...string[]]).optional(),
+    designation: z.string().optional(),
     presentAddress: z.string().optional(),
     permanentAddress: z.string().optional(),
     academicSemester: z.string().optional(),

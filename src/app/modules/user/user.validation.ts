@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { bloodGroup, gender } from '../student/student.constans';
-import { designation } from '../faculty/faculty.constans';
 
 const createStudentZodSchema = z.object({
   body: z.object({
@@ -134,7 +133,9 @@ const createFacultyZodSchema = z.object({
       academicFaculty: z.string({
         required_error: 'Academic faculty is required',
       }),
-      designation: z.enum([...designation] as [string, ...string[]]),
+      designation: z.string({
+        required_error: 'designation  is required',
+      }),
     }),
   }),
 });
