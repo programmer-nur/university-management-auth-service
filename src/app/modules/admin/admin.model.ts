@@ -82,4 +82,4 @@ const adminSchema = new Schema<IAdmin, AdminModel>(
   }
 );
 
-export const Faculty = model<IAdmin, AdminModel>('Admin', adminSchema);
+export const Admin = model<IAdmin, AdminModel>('Admin', adminSchema);

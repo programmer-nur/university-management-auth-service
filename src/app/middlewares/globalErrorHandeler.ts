@@ -1,4 +1,6 @@
-import { ErrorRequestHandler } from 'express';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
+import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 import config from '../../config';
 import { IGenericErrorMessage } from '../../interfaces/error';
 import handelValidationError from '../../Errors/handelValidationError';
@@ -8,7 +10,12 @@ import { ZodError } from 'zod';
 import handelZodValidationError from '../../Errors/handelZodValidationError';
 import handelCastError from '../../Errors/handelCastError';
 
-const globalErrorHandler: ErrorRequestHandler = (error, req, res) => {
+const globalErrorHandler: ErrorRequestHandler = (
+  error,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   // eslint-disable-next-line no-unused-expressions
   config.env === 'development'
     ? // eslint-disable-next-line no-console

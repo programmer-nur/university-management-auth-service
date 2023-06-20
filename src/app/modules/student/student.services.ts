@@ -70,7 +70,10 @@ const getSingleStudent = async (id: string): Promise<IStudent | null> => {
   return result;
 };
 
-const updateStudent = async (id: string, payload: Partial<IStudent>) => {
+const updateStudent = async (
+  id: string,
+  payload: Partial<IStudent>
+): Promise<IStudent | null> => {
   const { name, guardian, localGuardian, ...studentData } = payload;
   const updateStudentData: Partial<IStudent> = { ...studentData };
 
