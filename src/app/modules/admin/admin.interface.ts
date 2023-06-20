@@ -10,17 +10,18 @@ export type UserName = {
 export type IAdmin = {
   id: string;
   name: UserName;
-  gender: 'male' | 'female';
-  dateOfBirth: string;
+  profileImage: string;
+  dateOfBirth?: string;
   email: string;
   contactNo: string;
   emergencyContactNo: string;
+  gender?: 'male' | 'female';
+  permanentAddress?: string;
+  presentAddress?: string;
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
-  presentAddress: string;
-  permanentAddress: string;
+
   managementDepartment: Types.ObjectId | IManagementDepartment;
   designation: string;
-  profileImage?: string;
 };
 
 export type AdminModel = Model<IAdmin, Record<string, unknown>>;
@@ -28,9 +29,11 @@ export type AdminModel = Model<IAdmin, Record<string, unknown>>;
 export type IAdminFilters = {
   searchTerm?: string;
   id?: string;
-  bloodGroup?: string;
   email?: string;
   contactNo?: string;
   emergencyContactNo?: string;
+  gender?: 'male' | 'female';
+  bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
+  managementDepartment?: string;
   designation?: string;
 };

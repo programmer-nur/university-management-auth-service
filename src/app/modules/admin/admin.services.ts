@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { SortOrder } from 'mongoose';
+import mongoose, { SortOrder } from 'mongoose';
 import { paginationHelper } from '../../../helper/paginationHelper';
 import IPaginationOption from '../../../interfaces/pagination';
 import { adminSearchableFields } from './admin.constans';
 import { IAdmin, IAdminFilters } from './admin.interface';
 import { Admin } from './admin.model';
+import ApiError from '../../../Errors/ApiError';
+import httpStatus from 'http-status';
+import { User } from '../user/user.model';
 const getAllAdmins = async (
   filters: IAdminFilters,
   paginationOptions: IPaginationOption
@@ -57,10 +60,33 @@ const getSingleAdmin = async (id: string) => {
   return result;
 };
 const deleteAdmin = async (id: string) => {
-  const result = await Admin.findByIdAndDelete(id);
-  return result;
+  const isExist = await Admin.findOne({ id });
+
+  if (!isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Admin not found !');
+  }
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    const admin = await Admin.findOneAndDelete({ id }, { session });
+    if (!admin) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Failed to admin delete');
+    }
+    await User.deleteOne({ id });
+    session.commitTransaction();
+    session.endSession();
+    return admin;
+  } catch (error) {
+    session.abortTransaction();
+    throw error;
+  }
 };
 const updateAdmin = async (id: string, payload: Partial<IAdmin>) => {
+  const isExist = await Admin.findOne({ id });
+
+  if (!isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Admin not found !');
+  }
   const { name, ...adminData } = payload;
   const updateData = { ...adminData };
   if (name && Object.keys(name).length > 0) {
