@@ -77,6 +77,11 @@ const updateStudent = async (
   id: string,
   payload: Partial<IStudent>
 ): Promise<IStudent | null> => {
+  const isExist = await Student.findOne({ id });
+
+  if (!isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Student not found !');
+  }
   const { name, guardian, localGuardian, ...studentData } = payload;
   const updateStudentData: Partial<IStudent> = { ...studentData };
 
