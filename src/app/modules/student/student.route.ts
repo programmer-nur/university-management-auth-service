@@ -12,6 +12,8 @@ router.patch(
   StudentController.updateStudent
 );
 
+router.get('/:id', StudentController.deleteStudent);
+
 router.get('/', StudentController.getAllStudents);
 
 export const StudentRoutes = router;

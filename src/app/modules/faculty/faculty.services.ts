@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { SortOrder } from 'mongoose';
+import mongoose, { SortOrder } from 'mongoose';
 import { paginationHelper } from '../../../helper/paginationHelper';
 import IPaginationOption from '../../../interfaces/pagination';
 import { facultySearchableFields } from './faculty.constans';
 import { IFaculty, IFacultyFilters } from './faculty.interface';
 import { Faculty } from './faculty.model';
+import ApiError from '../../../Errors/ApiError';
+import httpStatus from 'http-status';
+import { User } from '../user/user.model';
 
 const getAllFaculties = async (
   filters: IFacultyFilters,
@@ -66,8 +69,13 @@ const getSingleFaculty = async (id: string) => {
   return result;
 };
 const updateFaculty = async (id: string, payload: Partial<IFaculty>) => {
+  const isExist = await Faculty.findOne({ id });
+
+  if (!isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Faculty not found !');
+  }
   const { name, ...facultyData } = payload;
-  const updateFacultyData = { ...facultyData };
+  const updateFacultyData: Partial<IFaculty> = { ...facultyData };
 
   if (name && Object.keys(name).length > 0) {
     Object.keys(name).forEach(key => {
@@ -85,9 +93,37 @@ const updateFaculty = async (id: string, payload: Partial<IFaculty>) => {
   );
   return result;
 };
+const deleteFaculty = async (id: string): Promise<IFaculty | null> => {
+  // check if the faculty is exist
+  const isExist = await Faculty.findOne({ id });
 
+  if (!isExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Faculty not found !');
+  }
+
+  const session = await mongoose.startSession();
+
+  try {
+    session.startTransaction();
+    //delete faculty first
+    const faculty = await Faculty.findOneAndDelete({ id }, { session });
+    if (!faculty) {
+      throw new ApiError(404, 'Failed to delete student');
+    }
+    //delete user
+    await User.deleteOne({ id });
+    session.commitTransaction();
+    session.endSession();
+
+    return faculty;
+  } catch (error) {
+    session.abortTransaction();
+    throw error;
+  }
+};
 export const FacultyService = {
   getAllFaculties,
   getSingleFaculty,
   updateFaculty,
+  deleteFaculty,
 };

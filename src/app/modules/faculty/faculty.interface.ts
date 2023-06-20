@@ -12,8 +12,9 @@ export type IFaculty = {
   id: string;
   name: UserName;
   gender: 'male' | 'female';
-  dateOfBirth: string;
+  dateOfBirth?: string;
   email: string;
+  profileImage: string;
   contactNo: string;
   emergencyContactNo: string;
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
@@ -29,8 +30,12 @@ export type FacultyModel = Model<IFaculty, Record<string, unknown>>;
 export type IFacultyFilters = {
   searchTerm?: string;
   id?: string;
-  bloodGroup?: string;
   email?: string;
   contactNo?: string;
   emergencyContactNo?: string;
+  gender?: 'male' | 'female';
+  bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
+  academicDepartment?: string;
+  academicFaculty?: string;
+  designation?: string;
 };
