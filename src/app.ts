@@ -4,11 +4,15 @@ const app: Application = express();
 import globalErrorHandler from './app/middlewares/globalErrorHandeler';
 import routers from './app/routes';
 import httpStatus from 'http-status';
+import cookieparser from 'cookie-parser';
+// import jwt from 'jsonwebtoken';
+
 app.use(cors());
 
 // parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieparser());
 
 app.use('/api/v1/', routers);
 // testing
