@@ -13,8 +13,8 @@ export type IUser = {
   faculty?: Types.ObjectId | IFaculty;
   admin?: Types.ObjectId | IAdmin;
 };
-type IUserModel = {
-  isUserExist(id: string): Promise<boolean>;
+export type IUserModel = {
+  isUserExist(id: string): Promise<Partial<IUser> | null>;
   isPasswordMatch(
     givenPassword: string,
     savedPassword: string

@@ -2,11 +2,11 @@ import { Request, Response } from 'express';
 import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendRespons';
 import httpStatus from 'http-status';
-import { AuthSerivce } from './auth.services';
+import { AuthService } from './auth.services';
 
 const loginUser = catchAsync(async (req: Request, res: Response) => {
   const { ...loginData } = req.body;
-  const result = await AuthSerivce.loginUser(loginData);
+  const result = await AuthService.loginUser(loginData);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
