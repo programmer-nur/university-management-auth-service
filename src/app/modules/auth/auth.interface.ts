@@ -5,6 +5,6 @@ export type ILoginUser = {
 
 export type ILoginResponse = {
   accessToken: string;
-  refreshToken: string;
+  refreshToken?: string;
   needsPasswordChange: boolean;
 };
