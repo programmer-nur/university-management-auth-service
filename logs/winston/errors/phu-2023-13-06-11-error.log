@@ -1,2 +1,0 @@
-Tue Jun 13 2023 11: 0: 24 [PH] error: E11000 duplicate key error collection: university-management.students index: email_1 dup key: { email: "nur@gmail.com" }
-Tue Jun 13 2023 11: 1: 32 [PH] error: E11000 duplicate key error collection: university-management.students index: contactNo_1 dup key: { contactNo: "user_4" }

@@ -1,2 +1,0 @@
-Wed Jun 14 2023 9: 48: 45 [PH] error: Schema hasn't been registered for model "Faculty".
-Use mongoose.model(name, schema)

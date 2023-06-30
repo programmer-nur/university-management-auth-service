@@ -15,6 +15,6 @@ export default {
     secret: process.env.JWT_SECRET,
     refresh_secret: process.env.JWT_REFRESH_SECRET,
     expire_in: process.env.JWT_EXPIRE_IN,
-    expire_refresh_in: process.env.JWT_REFRESH_EXPIRE_IN,
+    refresh_expire_in: process.env.JWT_REFRESH_EXPIRE_IN,
   },
 };

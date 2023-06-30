@@ -23,6 +23,9 @@ const userSchema = new Schema<IUser, UserModel>(
       type: Boolean,
       default: true,
     },
+    passwordChangedAt: {
+      type: Date,
+    },
     student: {
       type: Schema.Types.ObjectId,
       ref: 'Student',
@@ -63,21 +66,6 @@ userSchema.statics.isPasswordMatch = async function (
   return await bcrypt.compare(givenPassword, savedPassword);
 };
 
-// userSchema.methods.isUserExist = async function (
-//   id: string
-// ): Promise<Partial<IUser> | null> {
-//   return await User.findOne(
-//     { id },
-//     { id: 1, password: 1, needsPasswordChange: 1 }
-//   );
-// };
-
-// userSchema.methods.isPasswordMatch = async function (
-//   givenPassword: string,
-//   savedPassword: string
-// ): Promise<boolean> {
-//   return await bcrypt.compare(givenPassword, savedPassword);
-// };
 userSchema.pre('save', async function (next) {
   const user = this;
   user.password = await bcrypt.hash(

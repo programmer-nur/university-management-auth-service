@@ -5,7 +5,6 @@ import globalErrorHandler from './app/middlewares/globalErrorHandeler';
 import routers from './app/routes';
 import httpStatus from 'http-status';
 import cookieparser from 'cookie-parser';
-// import jwt from 'jsonwebtoken';
 
 app.use(cors());
 
@@ -15,9 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieparser());
 
 app.use('/api/v1/', routers);
-// testing
-// app.get('/', (req: Request, res: Response) => {
-//   throw new ApiError(400, 'THs is eoorr')
+
 //global error handler
 app.use(globalErrorHandler);
 

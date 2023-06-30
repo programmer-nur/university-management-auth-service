@@ -16,7 +16,7 @@ import { Faculty } from '../faculty/faculty.model';
 import { IAdmin } from '../admin/admin.interface';
 import { Admin } from '../admin/admin.model';
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
+
 const createStudent = async (
   student: IStudent,
   user: IUser
@@ -25,11 +25,7 @@ const createStudent = async (
   if (!user.password) {
     user.password = config.default_student_pass as string;
   }
-  // hash password
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(config.bcrypt_salt_round)
-  );
+
   // set role
   user.role = 'student';
 

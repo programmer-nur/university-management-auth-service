@@ -11,6 +11,9 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   const result = await AuthService.loginUser(loginData);
   // set cookies
   const { refreshToken, ...others } = result;
+
+  // set refresh token into cookie
+
   const cookieOptions = {
     secure: config.env === 'production',
     httpOnly: true,
@@ -19,7 +22,7 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   sendResponse<ILoginResponse>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'User login  successfully',
+    message: 'User logged in   successfully',
     data: others,
   });
 });
@@ -41,7 +44,20 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const changePassword = catchAsync(async (req: Request, res: Response) => {
+  const user = req.user;
+  const { ...passwordData } = req.body;
+  const result = await AuthService.changePassword(user, passwordData);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Password Change successfully',
+    data: result,
+  });
+});
+
 export const AuthController = {
   loginUser,
+  changePassword,
   refreshToken,
 };

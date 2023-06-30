@@ -1,4 +1,4 @@
-logs
+logs/winston
 dist
 node_modules
 .env
