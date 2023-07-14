@@ -72,6 +72,9 @@ userSchema.pre('save', async function (next) {
     user.password,
     Number(config.bcrypt_salt_round)
   );
+  if (!user.needsPasswordChange) {
+    user.passwordChangedAt = new Date();
+  }
   next();
 });
 export const User = model<IUser, UserModel>('User', userSchema);
