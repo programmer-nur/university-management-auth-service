@@ -2,12 +2,16 @@
 import mongoose, { SortOrder } from 'mongoose';
 import { paginationHelper } from '../../../helper/paginationHelper';
 import IPaginationOption from '../../../interfaces/pagination';
-import { facultySearchableFields } from './faculty.constans';
+import {
+  EVENT_FACULTY_UPDATED,
+  facultySearchableFields,
+} from './faculty.constans';
 import { IFaculty, IFacultyFilters } from './faculty.interface';
 import { Faculty } from './faculty.model';
 import ApiError from '../../../Errors/ApiError';
 import httpStatus from 'http-status';
 import { User } from '../user/user.model';
+import { RedisClint } from '../../../shared/redis';
 
 const getAllFaculties = async (
   filters: IFacultyFilters,
@@ -68,31 +72,38 @@ const getSingleFaculty = async (id: string) => {
   const result = await Faculty.findById(id);
   return result;
 };
-const updateFaculty = async (id: string, payload: Partial<IFaculty>) => {
+
+const updateFaculty = async (
+  id: string,
+  payload: Partial<IFaculty>
+): Promise<IFaculty | null> => {
   const isExist = await Faculty.findOne({ id });
 
   if (!isExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Faculty not found !');
   }
-  const { name, ...facultyData } = payload;
-  const updateFacultyData: Partial<IFaculty> = { ...facultyData };
+
+  const { name, ...FacultyData } = payload;
+  const updatedFacultyData: Partial<IFaculty> = { ...FacultyData };
 
   if (name && Object.keys(name).length > 0) {
     Object.keys(name).forEach(key => {
-      const nameKey = `name.${key}`;
-      (updateFacultyData as any)[nameKey] = name[key as keyof typeof name];
+      const nameKey = `name.${key}` as keyof Partial<IFaculty>;
+      (updatedFacultyData as any)[nameKey] = name[key as keyof typeof name];
     });
   }
-  const result = await Faculty.findByIdAndUpdate(
-    { _id: id },
 
-    updateFacultyData,
-    {
-      new: true,
-    }
-  );
+  const result = await Faculty.findOneAndUpdate({ id }, updatedFacultyData, {
+    new: true,
+  })
+    .populate('academicFaculty')
+    .populate('academicDepartment');
+  if (result) {
+    await RedisClint.publish(EVENT_FACULTY_UPDATED, JSON.stringify(result));
+  }
   return result;
 };
+
 const deleteFaculty = async (id: string): Promise<IFaculty | null> => {
   // check if the faculty is exist
   const isExist = await Faculty.findOne({ id });

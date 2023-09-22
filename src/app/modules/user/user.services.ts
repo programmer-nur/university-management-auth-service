@@ -16,6 +16,9 @@ import { Faculty } from '../faculty/faculty.model';
 import { IAdmin } from '../admin/admin.interface';
 import { Admin } from '../admin/admin.model';
 import mongoose from 'mongoose';
+import { IAcademicSemester } from '../academicSemester/academicSemester.interface';
+import { RedisClint } from '../../../shared/redis';
+import { EVENT_FACULTY_CREATED, EVENT_STUDENT_CREATED } from './user.constans';
 
 const createStudent = async (
   student: IStudent,
@@ -38,7 +41,7 @@ const createStudent = async (
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-    const id = await generateStudentId(academicSemester);
+    const id = await generateStudentId(academicSemester as IAcademicSemester);
     user.id = id;
     student.id = id;
 
@@ -87,6 +90,12 @@ const createStudent = async (
     });
   }
 
+  if (newUserAllData) {
+    await RedisClint.publish(
+      EVENT_STUDENT_CREATED,
+      JSON.stringify(newUserAllData.student)
+    );
+  }
   return newUserAllData;
 };
 
@@ -142,6 +151,12 @@ const createFaculty = async (
       ],
     });
   }
+  if (newUserAllData) {
+    await RedisClint.publish(
+      EVENT_FACULTY_CREATED,
+      JSON.stringify(newUserAllData.faculty)
+    );
+  }
   return newUserAllData;
 };
 
@@ -192,7 +207,6 @@ const createAdmin = async (
       ],
     });
   }
-
   return newUserAllData;
 };
 export const UserService = {

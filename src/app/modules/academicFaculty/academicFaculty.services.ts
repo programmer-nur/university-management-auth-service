@@ -4,6 +4,7 @@ import { IGenericResponse } from '../../../interfaces/common';
 import IPaginationOption from '../../../interfaces/pagination';
 import {
   IAcademicFaculty,
+  IAcademicFacultyCreateEvent,
   IAcademicFacultyFilters,
 } from './academicFaculty.interface';
 import { AcademicFaculty } from './academicFaculty.model';
@@ -36,7 +37,6 @@ const getAllAcademicFaculty = async (
       })),
     });
   }
-
   if (Object.keys(filtersData).length) {
     andConditions.push({
       $and: Object.entries(filtersData).map(([field, value]) => ({
@@ -93,10 +93,40 @@ const deleteAcademicSemester = async (
   const result = await AcademicFaculty.findByIdAndDelete(id);
   return result;
 };
+
+const createAcademicFacultyEvent = async (
+  payload: IAcademicFacultyCreateEvent
+): Promise<void> => {
+  await AcademicFaculty.create({
+    title: payload.title,
+    syncId: payload.id,
+  });
+};
+
+const updateAcademicFacultyEvent = async (
+  e: IAcademicFacultyCreateEvent
+): Promise<void> => {
+  await AcademicFaculty.findOneAndUpdate(
+    { syncId: e.id },
+
+    {
+      $set: {
+        title: e.title,
+      },
+    }
+  );
+};
+
+const deleteAcademicFacultyEvent = async (syncId: string): Promise<void> => {
+  await AcademicFaculty.findOneAndDelete({ syncId });
+};
 export const AcademicFacultyService = {
   createAcademicFaculty,
   getSingleAcademicFaculty,
+  deleteAcademicFacultyEvent,
   getAllAcademicFaculty,
   updateAcademicFaculty,
   deleteAcademicSemester,
+  createAcademicFacultyEvent,
+  updateAcademicFacultyEvent,
 };
