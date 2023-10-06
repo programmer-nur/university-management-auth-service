@@ -7,7 +7,7 @@ import { ENUM_USER_ROLE } from '../../../enums/enums';
 const router = express.Router();
 
 router.post(
-  '/create-academic-faculty',
+  '/create-faculty',
   validateRequest(AcademicFacultyValidation.createAcademicFacultyZodSchema),
   auth(ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.ADMIN),
   AcademicFacultyController.createAcademicFaculty

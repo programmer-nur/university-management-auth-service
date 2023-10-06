@@ -164,32 +164,37 @@ const createAdmin = async (
   admin: IAdmin,
   user: IUser
 ): Promise<IUser | null> => {
+  // If password is not given,set default password
   if (!user.password) {
     user.password = config.default_admin_pass as string;
   }
+  // set role
   user.role = 'admin';
-  const id = await generateAdminId();
-  user.id = id;
-  admin.id = id;
+
   let newUserAllData = null;
   const session = await mongoose.startSession();
-
   try {
     session.startTransaction();
-    // Transaction start korar karon a faculty ke [faculty] ai babe dite hove
+    // generate admin id
+    const id = await generateAdminId();
+    user.id = id;
+    admin.id = id;
+
     const newAdmin = await Admin.create([admin], { session });
+
     if (!newAdmin.length) {
-      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create admin');
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create faculty ');
     }
 
-    user.admin = newAdmin[0];
+    user.admin = newAdmin[0]._id;
 
     const newUser = await User.create([user], { session });
 
     if (!newUser.length) {
-      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create User');
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create admin');
     }
     newUserAllData = newUser[0];
+
     await session.commitTransaction();
     await session.endSession();
   } catch (error) {
@@ -197,6 +202,7 @@ const createAdmin = async (
     await session.endSession();
     throw error;
   }
+
   if (newUserAllData) {
     newUserAllData = await User.findOne({ id: newUserAllData.id }).populate({
       path: 'admin',
@@ -207,8 +213,10 @@ const createAdmin = async (
       ],
     });
   }
+
   return newUserAllData;
 };
+
 export const UserService = {
   createStudent,
   createFaculty,

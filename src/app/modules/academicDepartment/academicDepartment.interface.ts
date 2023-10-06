@@ -15,7 +15,7 @@ export type AcademicDepartmentModel = Model<
 export type IAcademicDepartmentFilters = {
   searchTerm?: string;
   academicFaculty?: Types.ObjectId;
-  syncId: string;
+  syncId?: string;
 };
 
 export type AcademicDepartmentCreateAndUpdatedEvent = {

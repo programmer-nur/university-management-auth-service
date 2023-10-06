@@ -6,7 +6,7 @@ import validateRequest from '../../middlewares/validateRequest';
 const router = express.Router();
 
 router.post(
-  '/create-management',
+  '/create-department',
   validateRequest(
     ManagementDepartmentValidation.createManagementDepartmentZodSchema
   ),
@@ -17,10 +17,6 @@ router.get(
   '/:id',
   ManagementDepartmentController.getSingleManagementDepartment
 );
-router.delete(
-  '/:id',
-  ManagementDepartmentController.deleteManagementDepartment
-);
 router.patch(
   '/:id',
   validateRequest(
@@ -28,6 +24,11 @@ router.patch(
   ),
   ManagementDepartmentController.updateManagementDepartment
 );
+router.delete(
+  '/:id',
+  ManagementDepartmentController.deleteManagementDepartment
+);
+
 router.get('/', ManagementDepartmentController.getAllManagementDepartments);
 
 export const ManagementDepartmentRoutes = router;

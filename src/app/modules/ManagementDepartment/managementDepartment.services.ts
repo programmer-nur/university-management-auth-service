@@ -20,12 +20,13 @@ const getAllManagementDepartments = async (
   filters: IManagementDepartmentFilters,
   paginationOptions: IPaginationOption
 ): Promise<IGenericResponse<IManagementDepartment[]>> => {
+  // Extract searchTerm to implement search query
   const { searchTerm, ...filtersData } = filters;
-  const { limit, skip, page, sortOrder, sortBy } =
+  const { page, limit, skip, sortBy, sortOrder } =
     paginationHelper.calculatePagination(paginationOptions);
 
   const andConditions = [];
-
+  // Search needs $or for searching in specified fields
   if (searchTerm) {
     andConditions.push({
       $or: managementDepartmentSearchableFiled.map(field => ({
@@ -36,7 +37,7 @@ const getAllManagementDepartments = async (
       })),
     });
   }
-
+  // Filters needs $and to fullfill all the conditions
   if (Object.keys(filtersData).length) {
     andConditions.push({
       $and: Object.entries(filtersData).map(([field, value]) => ({
@@ -44,21 +45,22 @@ const getAllManagementDepartments = async (
       })),
     });
   }
+
+  // Dynamic  Sort needs  field to  do sorting
   const sortConditions: { [key: string]: SortOrder } = {};
   if (sortBy && sortOrder) {
     sortConditions[sortBy] = sortOrder;
   }
-
   const whereConditions =
     andConditions.length > 0 ? { $and: andConditions } : {};
 
   const result = await ManagementDepartment.find(whereConditions)
     .sort(sortConditions)
-    .limit(limit)
     .skip(skip)
-    .lean();
+    .limit(limit);
 
-  const total = await ManagementDepartment.countDocuments(whereConditions);
+  const total = await ManagementDepartment.countDocuments();
+
   return {
     meta: {
       page,
@@ -72,18 +74,20 @@ const getAllManagementDepartments = async (
 const getSingleManagementDepartment = async (
   id: string
 ): Promise<IManagementDepartment | null> => {
-  const result = await ManagementDepartment.findByIdAndDelete(id);
+  const result = await ManagementDepartment.findById(id);
   return result;
 };
 
 const updateManagementDepartment = async (
   id: string,
-  payload: IManagementDepartment
+  payload: Partial<IManagementDepartment>
 ): Promise<IManagementDepartment | null> => {
-  const result = await ManagementDepartment.findByIdAndUpdate(
+  const result = await ManagementDepartment.findOneAndUpdate(
     { _id: id },
     payload,
-    { new: true }
+    {
+      new: true,
+    }
   );
   return result;
 };

@@ -1,7 +1,8 @@
 type IPaginationOption = {
   page?: number;
   limit?: number;
-  sortBy?: 'asc' | 'desc';
+  sortBy?: string;
+  sortOrder?: 'asc' | 'desc';
 };
 
 export default IPaginationOption;

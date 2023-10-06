@@ -10,6 +10,5 @@ export type ManagementDepartmentModel = Model<
 >;
 
 export type IManagementDepartmentFilters = {
-  title?: string;
   searchTerm?: string;
 };
